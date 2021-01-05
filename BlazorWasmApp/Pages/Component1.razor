@@ -1,0 +1,16 @@
+@page "/component1"
+@page "/component1/{Age:int}"
+
+<h1>Component 1</h1>
+
+<p>Current name: @Name</p>
+
+<p>Current age: @Age</p>
+
+@code {
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public int Age { get; set; }
+}
