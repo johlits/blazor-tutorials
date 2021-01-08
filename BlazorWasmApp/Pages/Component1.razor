@@ -7,10 +7,21 @@
 
 <p>Current age: @Age</p>
 
+<Component2 @ref="Comp2"></Component2>
+
+<button class="btn btn-primary" @onclick="ChangeColor">Change color</button>
+
 @code {
     [Parameter]
     public string Name { get; set; }
 
     [Parameter]
     public int Age { get; set; }
+
+    private Component2 Comp2;
+
+    private void ChangeColor()
+    {
+        Comp2.ChangeColor();
+    }
 }

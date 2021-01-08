@@ -6,7 +6,11 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-<Component1 Name="Johan"></Component1>
+<CascadingValue Name="FavColor" Value="@("blue")">
+    <Component1></Component1>
+</CascadingValue>
+
+<Counter SetCounter="@((val) => Console.WriteLine(val))"></Counter>
 
 <a href="@($"/Component1/31")">
     Click me

@@ -1,0 +1,15 @@
+@page "/component2"
+
+<h1>Component 2</h1>
+
+<p>Favourite color: @FavColor</p>
+
+@code {
+    [CascadingParameter(Name = "FavColor")]
+    public string FavColor { get; set; }
+
+    public void ChangeColor() {
+        FavColor = "green";
+        StateHasChanged();
+    }
+}

@@ -9,8 +9,12 @@
 @code {
     private int currentCount = 0;
 
+    [Parameter]
+    public EventCallback<int> SetCounter { get; set; }
+
     private void IncrementCount()
     {
         currentCount++;
+        SetCounter.InvokeAsync(currentCount);
     }
 }
