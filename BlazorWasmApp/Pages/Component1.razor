@@ -7,6 +7,40 @@
 
 <p>Current age: @Age</p>
 
+@if (IsWorkingFromHome)
+{
+    <p>Is working from home!</p>
+}
+else
+{
+    <p>Is NOT working from home.</p>
+}
+
+<ol>
+    @for (var i = 0; i < Projects.Count; i++)
+    {
+        <li>
+            @Projects[i]
+        </li>
+    }
+</ol>
+
+<input type="number" @bind-value="Age" @bind-value:event="oninput" />
+
+<input type="checkbox" @bind="IsWorkingFromHome" />
+
+<select @bind="MainProject">
+    @for (var i = 0; i < Projects.Count; i++)
+    {
+        var id = i;
+        <option value="@id">
+            @Projects[i]
+        </option>
+    }
+</select>
+
+<p>Main project: @MainProject</p>
+
 <Component2 @ref="Comp2"></Component2>
 
 <button class="btn btn-primary" @onclick="ChangeColor">Change color</button>
@@ -17,6 +51,19 @@
 
     [Parameter]
     public int Age { get; set; }
+
+    public bool IsWorkingFromHome { get; set; }
+
+    public List<string> Projects { get; set; }
+
+    public int MainProject { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Projects = new List<string>();
+        Projects.Add("Make a youtube video");
+        Projects.Add("Make some food");
+    }
 
     private Component2 Comp2;
 
