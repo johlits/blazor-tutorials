@@ -1,0 +1,99 @@
+@page "/component3"
+@using System.ComponentModel.DataAnnotations
+
+<h1>Address book</h1>
+
+<EditForm Model="@contact" OnInvalidSubmit="@OnInvalidSubmit" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <p>
+        <label>
+            Name:
+            <InputText @bind-Value="contact.Name"></InputText>
+        </label>
+    </p>
+    <p>
+        <label>
+            Phone:
+            <InputText @bind-Value="contact.Phone"></InputText>
+        </label>
+    </p>
+    <p>
+        <label>
+            Age:
+            <InputNumber @bind-Value="contact.Age"></InputNumber>
+        </label>
+    </p>
+    <p>
+        <label>
+            Checked:
+            <InputCheckbox @bind-Value="contact.Checked"></InputCheckbox>
+        </label>
+    </p>
+
+    <p>
+        <label>
+            Type:
+            <InputSelect @bind-Value="contact.Type">
+                <option value="">
+                    Select..
+                </option>
+                <option value="friend">
+                    Friend.
+                </option>
+                <option value="colleague">
+                    Colleague
+                </option>
+                <option value="other">
+                    Other
+                </option>
+            </InputSelect>
+        </label>
+    </p>
+
+    <p>
+        <InputFile OnChange="@OnInputFileChange" multiple />
+    </p>
+
+    <p>
+        <button type="submit">Submit</button>
+    </p>
+
+</EditForm>
+
+@code {
+    private Contact contact = new Contact();
+
+    public class Contact {
+
+        [Required]
+        [StringLength(16, ErrorMessage = "Name is too long!")]
+        public string Name { get; set; }
+
+        [Phone]
+        public string Phone { get; set; }
+
+        [Range(0, 99, ErrorMessage = "Age must be between 0 and 99")]
+        public int Age { get; set; }
+
+        [Required]
+        public string Type { get; set; }
+
+        [Required]
+        [Range(typeof(bool), "true", "true", ErrorMessage = "Contact is not checked!")]
+        public bool Checked { get; set; }
+    }
+
+    private void OnInvalidSubmit() {
+        Console.WriteLine("Not OK form");
+    }
+
+    private void OnValidSubmit() {
+        Console.WriteLine("OK form");
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e) {
+        e.GetMultipleFiles(5);
+    }
+}
