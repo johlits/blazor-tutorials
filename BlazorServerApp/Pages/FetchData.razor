@@ -23,15 +23,23 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
+            <Virtualize
+                ItemsProvider="@LoadForecasts"
+                Context="forecast">
+                <ItemContent>
+                    <tr>
+                        <td>@forecast.Date.ToShortDateString()</td>
+                        <td>@forecast.TemperatureC</td>
+                        <td>@forecast.TemperatureF</td>
+                        <td>@forecast.Summary</td>
+                    </tr>
+                </ItemContent>
+                <Placeholder>
+                    <p>
+                        Loading...
+                    </p>
+                </Placeholder>
+            </Virtualize>
         </tbody>
     </table>
 }
@@ -42,5 +50,11 @@ else
     protected override async Task OnInitializedAsync()
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    }
+
+    protected async ValueTask<ItemsProviderResult<WeatherForecast>> LoadForecasts(ItemsProviderRequest request) {
+        return new ItemsProviderResult<WeatherForecast>(
+            forecasts.Skip(request.StartIndex).Take(request.Count),
+            forecasts.Count());
     }
 }
