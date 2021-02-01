@@ -1,0 +1,32 @@
+﻿@page "/js"
+@inject IJSRuntime JS  
+
+<h3>JsInterop</h3>
+
+<input type="number" @bind-value="num" @bind-value:event="oninput" />
+
+<button class="btn btn-primary" @onclick="Square">
+    Square
+</button>
+
+<p>Result: @result</p>
+
+<button type="button" class="btn btn-secondary" onclick="math.logBinaryAsync(@result)">
+    Log result to console
+</button>
+
+@code {
+    private int num;
+    private int result;
+
+    private int resultBin;
+
+    private async Task Square() {
+        result = await JS.InvokeAsync<int>("math.square", num);
+    }
+
+    [JSInvokable]
+    public static Task<string> ReturnBinaryAsync(int dec) {
+        return Task.FromResult(Convert.ToString(dec, 2));
+    }
+}
