@@ -1,5 +1,8 @@
 @page "/counter"
 
+@using Microsoft.Extensions.Logging
+@inject ILogger<Counter> logger
+
 <h1>Counter</h1>
 
 <p>Current count: @currentCount</p>
@@ -16,5 +19,10 @@
     {
         currentCount++;
         SetCounter.InvokeAsync(currentCount);
+
+        logger.LogInformation("log info");
+        logger.LogDebug("log debug");
+        logger.LogError("log error");
+        logger.LogWarning("log warning");
     }
 }
